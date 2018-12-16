@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "277801141933",
+    "firebase_url": "https://beproject-1060b.firebaseio.com",
+    "project_id": "beproject-1060b",
+    "storage_bucket": "beproject-1060b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277801141933:android:824819afa7e3cb39",
+        "android_client_info": {
+          "package_name": "com.example.hauntarl.beproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277801141933-0fjois5lskhsokhg1c07jcdgrs8ebhpr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hauntarl.beproject",
+            "certificate_hash": "496e7203e058f319bac24266c9f33afcd18e5070"
+          }
+        },
+        {
+          "client_id": "277801141933-l6ale3n7qsracr0v9pc13lv8opp9gk9d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hauntarl.beproject",
+            "certificate_hash": "34e4045fa9ada3aa5357cb3d94f2ec238f16f820"
+          }
+        },
+        {
+          "client_id": "277801141933-3b77h8b6vqeimi0nb7jrm85qapfra22u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPHRZl_sIxIohmB9nwARSR1aUBWs8Ik9A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277801141933-3b77h8b6vqeimi0nb7jrm85qapfra22u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

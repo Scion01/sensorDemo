@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:background="#ffffff"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="1dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:descendantFocusability="blocksDescendants" >
+        <Button
+            android:id="@+id/expandableButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:paddingLeft="10dp"
+            android:drawableRight="@drawable/ic_arrow_drop"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:text="Start Your Journey"
+            android:textSize="25sp"
+            android:textColor="#565656"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:descendantFocusability="blocksDescendants"/>
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:background="#fafafa"
+            android:paddingRight="15dp"
+            app:ael_duration="200"
+            app:ael_expanded="false"
+            app:ael_interpolator="decelerate"
+            app:ael_orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acceleration"
+                    android:focusable="false"
+                    android:id="@+id/acc"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="110dp"
+                    android:drawableLeft="@drawable/ic_acc"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/personal"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="X-axis : "
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/accX"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Y-axis : "
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/accY"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Z-axis : "
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/accZ"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gyroscope"
+                    android:layout_marginTop="5dp"
+                    android:focusable="false"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="110dp"
+                    android:textColor="@color/personal"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/ic_gyro"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="X-axis : "
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/gyroX"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Y-axis : "
+                    android:layout_marginTop="5dp"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/gyroY"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Z-axis : "
+                    android:layout_marginTop="5dp"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/gyroZ"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:focusable="false"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/ic_loc"
+                    android:layout_marginLeft="110dp"
+                    android:textColor="@color/personal"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Latitude :"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/locX"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Longitude : "
+                    android:layout_marginTop="5dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/locY"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speed"
+                    android:focusable="false"
+                    android:layout_marginTop="5dp"
+
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/ic_speed"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="112dp"
+                    android:textColor="@color/personal"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="infinity"
+                    android:layout_marginTop="5dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_gravity="center"
+                    android:id="@+id/speed"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" >
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="END YOUR JOURNEY"
+                        android:drawableEnd="@drawable/ic_end"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorAccent"
+                        android:id="@+id/btn_end"
+                        android:background="@drawable/highlight_button3"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:paddingBottom="10dp"
+                        android:descendantFocusability="blocksDescendants" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="600dp"
+    android:scaleType="centerCrop"
+    android:layout_gravity="center"
+    android:src="@drawable/roadahead"/>
+
+    </LinearLayout>
+
+</ScrollView>
