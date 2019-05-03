@@ -31,13 +31,16 @@ public class uploadFiles {
         ArrayList<uploadFiles> files = new ArrayList<uploadFiles>();
         folder = new File(Environment.getExternalStorageDirectory()
                 + "/Sensor Values");
-        for (File f : folder.listFiles()) {
-            Log.d("found","found");
-            if (f.isFile()) {
-                files.add(new uploadFiles(f.getName()));
+        try {
+            for (File f : folder.listFiles()) {
+                Log.d("found", "found");
+                if (f.isFile()) {
+                    files.add(new uploadFiles(f.getName()));
+                }
             }
-        }
+        }catch (NullPointerException e){
 
+        }
         return files;
     }
 }

@@ -21,20 +21,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -51,8 +51,8 @@ public class Extract extends Fragment implements SensorEventListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    ExpandableRelativeLayout expandableLayout;
-    private Button btnEx, btnEnd;
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -70,6 +70,7 @@ public class Extract extends Fragment implements SensorEventListener{
     private TextView zGyroVal;
     private TextView xLoc;
     private TextView yLoc;
+    private TextView deG;
     private TextView speed;
     private LocationManager locationManager;
     private File folder;
@@ -83,37 +84,14 @@ public class Extract extends Fragment implements SensorEventListener{
     private long  timestamp;
     private int startNew = 1;
 
-    private int flag=1;
+
 
 
     private float[] gravity = new float[]
             {0, 0, 0};
     private float zval = 0f;
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 222) {
-            int i = 0;
-            for (i = 0; i < grantResults.length; i++) {
-                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
 
-                } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Please give the required permissions!!", Toast.LENGTH_LONG).show();
-                    getAllPermissions();
-                }
-            }
-
-        }
-    }
-    private void getAllPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(
-                    new String[]{android.Manifest.permission
-                            .READ_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_CALENDAR},
-                    222);
-        }
-    }
 
     public Extract() {
         // Required empty public constructor
@@ -146,6 +124,7 @@ public class Extract extends Fragment implements SensorEventListener{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -158,19 +137,17 @@ public class Extract extends Fragment implements SensorEventListener{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnEx = (Button) view.findViewById(R.id.expandableButton);
-        btnEnd = (Button) view.findViewById(R.id.btn_end);
-        expandableLayout = (ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout);
+
 
         accValues = new String[3];
         gyroValues = new String[3];
         locValues = new String[3];
 
-        getAllPermissions();
 
 
 
-        checkGpsAvailability();
+
+
 
         xVal = view.findViewById(R.id.accX);
         yVal = view.findViewById(R.id.accY);
@@ -182,6 +159,8 @@ public class Extract extends Fragment implements SensorEventListener{
 
         xLoc = view.findViewById(R.id.locX);
         yLoc = view.findViewById(R.id.locY);
+
+        deG = view.findViewById(R.id.deg);
 
         speed = view.findViewById(R.id.speed);
 
@@ -210,6 +189,13 @@ public class Extract extends Fragment implements SensorEventListener{
             Toast.makeText(getActivity().getApplicationContext(),"This device doesn't have accelerometer support!!",Toast.LENGTH_LONG).show();
             getActivity().finish();
         }
+
+        Sensor magneticField = senSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        if (magneticField != null) {
+            senSensorManager.registerListener(this, magneticField,
+                    SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
         if(senSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)!= null){
             senGyro = senSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
             SensorEventListener gyroSensorListener = new SensorEventListener() {
@@ -219,12 +205,6 @@ public class Extract extends Fragment implements SensorEventListener{
                     xGyroVal.setText("X-axis : "+String.valueOf(event.values[0]));
                     yGyroVal.setText("Y-axis : "+String.valueOf(event.values[1]));
                     zGyroVal.setText("Z-axis : "+String.valueOf(event.values[2]));
-
-                    gyroValues[0] = String.valueOf(event.values[0]);
-                    gyroValues[1] = String.valueOf(event.values[1]);
-                    gyroValues[2] = String.valueOf(event.values[2]);
-
-                    writeValues();
                 }
 
                 @Override
@@ -241,117 +221,13 @@ public class Extract extends Fragment implements SensorEventListener{
 
         }
 
-        btnEx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flag=0;
-                expandableLayout.toggle();
-                btnEx.setText("Collecting Data...");
-                if(startNew==1) {
-                    openAFile();
-                    startNew=0;
-                }
-            }
-        });
-        btnEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flag=1;
-                expandableLayout.collapse();
-                startNew=1;
-                btnEx.setText("Start New Journey...");
-            }
-        });
+
 
     }
-    private void writeValues() {
-        try {
-
-            if(flag==0) {
-                fileWriter = new FileWriter(filename, true);
-                timestamp = Calendar.getInstance().getTimeInMillis();
-                fileWriter.append(locValues[0]);
-                fileWriter.append(',');
-                fileWriter.append(locValues[1]);
-                fileWriter.append(',');
-                fileWriter.append(accValues[0]);
-                fileWriter.append(',');
-                fileWriter.append(accValues[1]);
-                fileWriter.append(',');
-                fileWriter.append(accValues[2]);
-                fileWriter.append(',');
-                fileWriter.append(gyroValues[0]);
-                fileWriter.append(',');
-                fileWriter.append(gyroValues[1]);
-                fileWriter.append(',');
-                fileWriter.append(gyroValues[2]);
-                fileWriter.append(',');
-                fileWriter.append(velocity);
-                fileWriter.append(',');
-                fileWriter.append(String.valueOf(Calendar.getInstance().getTimeInMillis()));
-                fileWriter.append(',');
-                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-                String formattedDate = df.format(Calendar.getInstance().getTime());
-                fileWriter.append(formattedDate);
-                fileWriter.append("\n");
-                fileWriter.close();
-            }
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private void checkGpsAvailability() {
-        LocationManager service = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        boolean enabled = service
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        Toast.makeText(getActivity().getApplicationContext(), "Please enable GPS!!",Toast.LENGTH_SHORT).show();
-
-        if (!enabled) {
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
-        }
-    }
-    private void openAFile() {
-        folder = new File(Environment.getExternalStorageDirectory()
-                + "/Sensor Values");
-        if (!folder.exists())
-            folder.mkdir();
-        filename = folder.toString() + "/" +String.valueOf(Calendar.getInstance().getTime()+" Values.csv");
-
-        try {
-            fileWriter  = new FileWriter(filename);
-            fileWriter.append("LAT");
-            fileWriter.append(',');
-            fileWriter.append("LONG");
-            fileWriter.append(',');
-            fileWriter.append("accX");
-            fileWriter.append(',');
-            fileWriter.append("accY");
-            fileWriter.append(',');
-            fileWriter.append("accZ");
-            fileWriter.append(',');
-            fileWriter.append("gyroX");
-            fileWriter.append(',');
-            fileWriter.append("gyroY");
-            fileWriter.append(',');
-            fileWriter.append("gyroZ");
-            fileWriter.append(',');
-            fileWriter.append("Speed");
-            fileWriter.append(',');
-            fileWriter.append("Timestamp In mills");
-            fileWriter.append(',');
-            fileWriter.append("Timestamp In Date");
-            fileWriter.append("\n");
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -377,15 +253,14 @@ public class Extract extends Fragment implements SensorEventListener{
     }
 
     private class MyLocationListener implements LocationListener {
+
         @Override
         public void onLocationChanged(Location loc) {
             xLoc.setText("Latitude: "+String.valueOf(loc.getLatitude()));
             yLoc.setText("Longitude: "+String.valueOf(loc.getLongitude()));
             speed.setText(String.valueOf(loc.getSpeed()));
 
-            locValues[0] = String.valueOf(loc.getLatitude());
-            locValues[1] = String.valueOf(loc.getLongitude());
-            velocity = String.valueOf(loc.getSpeed());
+
         }
 
         @Override
@@ -400,31 +275,52 @@ public class Extract extends Fragment implements SensorEventListener{
 
         @Override
         public void onProviderDisabled(String provider) {
-            //Toast.makeText(getApplicationContext(),"Make sure that GPS is ON",Toast.LENGTH_SHORT).show();
-            Intent gpsOptionsIntent = new Intent(
-                    android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(gpsOptionsIntent);
+
+
+
         }
     }
-
+    float[] mGeomagnetic;
+    float[] mGravity;
     @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor mySensor = event.sensor;
         final float alpha = 0.8f;
 
-
+        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
         gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
         gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
         gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
-        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            xVal.setText("X-axis : "+String.valueOf(event.values[0]-gravity[0]));
-            yVal.setText("Y-axis : "+String.valueOf(event.values[1]-gravity[1]));
-            zVal.setText("Z-axis : "+String.valueOf(event.values[1]-gravity[1]));
 
-            accValues[0] = String.valueOf(event.values[0]-gravity[0]);
-            accValues[1] = String.valueOf(event.values[1]-gravity[1]);
-            accValues[2] = String.valueOf(event.values[2]-gravity[2]);
+            xVal.setText("X-axis : " + String.valueOf(event.values[0] - gravity[0]));
+            yVal.setText("Y-axis : " + String.valueOf(event.values[1] - gravity[1]));
+            zVal.setText("Z-axis : " + String.valueOf(event.values[1] - gravity[1]));
+
         }
+
+//        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER)
+ //       mGravity = event.values;
+
+
+
+        if (event.sensor.getType() == Sensor.TYPE_ORIENTATION)
+            deG.setText("Degrees: "+String.valueOf(event.values[1]));
+
+
+   //     if (mGravity != null && mGeomagnetic != null) {
+   //         float R[] = new float[9];
+   //         float I[] = new float[9];
+
+    //        boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+    //        if (success) {
+   //             float orientation[] = new float[3];
+   //             SensorManager.getOrientation(R, orientation);
+   //            deG.setText("Degrees: "+String.valueOf(Math.toDegrees(orientation[1]))); // orientation contains: azimuth, pitch and roll
+
+   //         }
+   //     }
+
+
 
     }
 

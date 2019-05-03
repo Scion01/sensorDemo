@@ -16,33 +16,7 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:descendantFocusability="blocksDescendants" >
-        <Button
-            android:id="@+id/expandableButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:paddingLeft="10dp"
-            android:drawableRight="@drawable/ic_arrow_drop"
-            android:paddingRight="10dp"
-            android:gravity="center"
-            android:text="Start Your Journey"
-            android:textSize="25sp"
-            android:textColor="#565656"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:descendantFocusability="blocksDescendants"/>
 
-        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-            android:id="@+id/expandableLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:background="#fafafa"
-            android:paddingRight="15dp"
-            app:ael_duration="200"
-            app:ael_expanded="false"
-            app:ael_interpolator="decelerate"
-            app:ael_orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -189,6 +163,33 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Orientation"
+                    android:focusable="false"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/ic_loc"
+                    android:layout_marginLeft="110dp"
+                    android:textColor="@color/personal"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Degrees : "
+                    android:layout_marginTop="5dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/deg"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Speed"
                     android:focusable="false"
                     android:layout_marginTop="5dp"
@@ -226,11 +227,38 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="START YOUR JOURNEY"
+                        android:textSize="20sp"
+                        android:textColor="@color/personal"
+                        android:id="@+id/btn_st"
+                        android:onClick="startService"
+                        android:background="@drawable/highlight_button1"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:paddingBottom="15dp"
+                        android:descendantFocusability="blocksDescendants" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants" >
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="END YOUR JOURNEY"
                         android:drawableEnd="@drawable/ic_end"
                         android:textSize="20sp"
                         android:textColor="@color/colorAccent"
                         android:id="@+id/btn_end"
+                        android:onClick="stopService"
                         android:background="@drawable/highlight_button3"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
@@ -239,9 +267,8 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
-        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
 
 <ImageView
     android:layout_width="match_parent"

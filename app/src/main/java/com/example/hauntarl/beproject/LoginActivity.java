@@ -3,6 +3,8 @@ package com.example.hauntarl.beproject;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        getAllPermissions();
         btnGoogle = findViewById(R.id.btn_google);
         btnOTP = findViewById(R.id.btn_otp);
         phoneNum = findViewById(R.id.phone);
@@ -158,5 +160,28 @@ public class LoginActivity extends AppCompatActivity {
         finish();    Log.d("DBREF",databaseReference.toString());
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 222) {
+            int i = 0;
+            for (i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
 
+                } else {
+                    Toast.makeText(this.getApplicationContext(), "Please give the required permissions!!", Toast.LENGTH_LONG).show();
+                    getAllPermissions();
+                }
+            }
+
+        }
+    }
+    private void getAllPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(
+                    new String[]{android.Manifest.permission
+                            .READ_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_CALENDAR},
+                    222);
+        }
+    }
 }

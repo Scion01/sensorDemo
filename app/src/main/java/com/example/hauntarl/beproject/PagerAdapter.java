@@ -27,12 +27,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 Extract extract = new Extract();
                 return extract;
             case 1:
-                Map map = new Map();
-                return map;
-            case 2:
                 Upload upload = new Upload();
                 return upload;
-            case 3:
+            case 2:
                 Driver driver = new Driver();
                 return driver;
             default:
